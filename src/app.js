@@ -1,28 +1,31 @@
 const express= require('express');
+
 const app = express();
+app.use("/", (err, req, res, next)=>{
+    if(err){
+        //log your error
+        res.status(500).send("something went wrong");
+    }
+});
+app.get("/getUserData",(req, res) => {
+    // try{
+            //logic of DB call and get user data
+    throw new Error("hdvfhsdh")
+    res.send("User Data  Sent");
 
-app.use("/user", (req, res, next) => {
-    console.log("handling the rout user!!");
-    next();
-    // res.send("Response!!");
-    
-}, (req,res,next) => {
-    console.log("handling the rout user 2!!");
-    // res.send("2nd Response!!");
-    next()
-
-},(req,res,next) => {
-    console.log("handling the rout user 3!!");
-    // res.send("3nd Response!!");
-    next()
-
-},(req,res,next) => {
-    console.log("handling the rout user 4!!");
-    // res.send("4nd Response!!");
-    next()
+    // }
+    // catch(err){
+    //     res.status(500).send("Some Error contact support team");
+    // }
 
 });
 
+app.use("/", (err, req, res, next)=>{
+    if(err){
+        //log your error
+        res.status(500).send("something went wrong");
+    }
+});
 
 app.listen(7777, () => {
     console.log("server is successfully listeng on port 7777");
