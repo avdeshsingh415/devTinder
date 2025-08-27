@@ -5,7 +5,7 @@ const User = require('./models/user');
 const e = require('express');
 
 app.use(express.json());
-
+  
 app.post('/signup', async (req,res)=>{
  
 
@@ -24,19 +24,38 @@ app.get('/user', async (req,res)=>{
     const userEmail = req.body.emailId;
 
     try{
-        const user = await User.find({emailId:userEmail})
-        if(user.length === 0){
+        console.log(userEmail);   
+        const user = await User.findOne({emailId: userEmail});
+        if(!user){
             res.status(404).send("User not found");
-        }else{
-            res.send(user);
         }
+        else{
+            res.send(user);
+        };
+    
+
+    // try{
+    //     const user = await User.find({emailId:userEmail})
+    //     if(user.length === 0){
+    //         res.status(404).send("User not found");
+    //     }else{
+    //         res.send(user);
+    //     }
         
     }
     catch(err){
         res.status(400).send("something went wrong");
     }
 });
-app.get('/feed',(req,res)=>{
+app.get('/feed', async (req,res)=>{
+
+    try{
+        const user = await User.find({});
+        res.send(user);
+    }
+    catch(err){
+        res.status(400).send("something went wrong");
+    }
 
 })
 
