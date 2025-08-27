@@ -3,9 +3,10 @@ const connectDB = require ("./config/database");
 const app = express();
 const User = require('./models/user');
 const e = require('express');
+const { ReturnDocument } = require('mongodb');
 
 app.use(express.json());
-  
+//add user
 app.post('/signup', async (req,res)=>{
  
 
@@ -20,6 +21,7 @@ app.post('/signup', async (req,res)=>{
     }
     
 });
+// get user by email
 app.get('/user', async (req,res)=>{
     const userEmail = req.body.emailId;
 
@@ -47,6 +49,7 @@ app.get('/user', async (req,res)=>{
         res.status(400).send("something went wrong");
     }
 });
+// feed Api = get/feed - get all user from database
 app.get('/feed', async (req,res)=>{
 
     try{
@@ -58,7 +61,34 @@ app.get('/feed', async (req,res)=>{
     }
 
 })
+// delete user by userId
+app.delete('/user', async (req, res) => {
+    const userId = req.body.userId; 
+    try{
+         const user = await User.findByIdAndDelete({ _id: userId});
 
+        // const user = await User.findByIdAndDelete(userId); 
+        res.send("user deleted successfully");
+    }
+    catch(err){
+        res.status(400).send("something went wrong");
+    }
+})
+//update data of user
+app.patch('/user', async (req,res) => {
+    const userId = req.body.userId;
+    const data = req.body;
+    try{
+        const user = await User.findByIdAndUpdate({ _id: userId}, data, {
+            ReturnDocument: 'after',
+        });
+        console.log(user);
+        res.send("user updated successfully");
+    }catch(err){
+        res.status(400).send("something went wrong");   
+    }
+
+});
 connectDB()
     .then(()=>{
      console.log("Database connection established...");
