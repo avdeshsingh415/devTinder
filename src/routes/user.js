@@ -27,7 +27,7 @@ userRouter.get("/user/requests/received", userAuth, async(req, res) => {
 }
 });
 
-userRouter.get("/user/connectons", userAuth, async(req,res) => {
+userRouter.get("/user/connectons", userAuth, async(req, res) => {
     try{
         const loggedInUser= req.user;
         const connectionRequests = await ConnectionRequest.find({
@@ -56,7 +56,7 @@ userRouter.get("/user/connectons", userAuth, async(req,res) => {
     }
 });
 
-userRouter.get("/feed", userAuth, async(req,res)=>{
+userRouter.get("/feed", userAuth, async(req, res)=>{
     try{
         
         // User should see all the user cards  except
